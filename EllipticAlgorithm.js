@@ -44,12 +44,13 @@ function getPointListmap(p, pointArray) {
       }
     }
   }
+  return count;
 }
 
 function printResult(pointArray, p) {
-  getPointListmap(p, pointArray);
-  console.log(`Danh sách các điểm thuộc đường cong Eliptic với p = ${p}`)
-  pointArray1.forEach(point => {
+  let count = getPointListmap(p, pointArray);
+  console.log(`Danh sách các điểm thuộc đường cong Eliptic với p = ${p}, có ${count} điểm: `)
+  pointArray.forEach(point => {
     console.log(point)
   })
 }
