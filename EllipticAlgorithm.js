@@ -1,7 +1,10 @@
-const p1 = 127;
-const p2 = 827;
-let pointArray1 = [];
-let pointArray2 = [];
+const p1 = 127,
+  p2 = 827,
+  A = 2,
+  B = 11;
+
+let pointArray1 = [],
+  pointArray2 = [];
 
 function getPointListmap(p, pointArray) {
   let mapQp = new Map();
@@ -19,7 +22,7 @@ function getPointListmap(p, pointArray) {
   let count = 0;
 
   for (let i = 0; i < p - 1; i++) {
-    let elipticFunc = (i * i * i + 2 * i + 11) % p;
+    let elipticFunc = (i * i * i + A * i + B) % p;
     if (elipticFunc === 0) {
       // console.log(i + " :YES")
       count++;
