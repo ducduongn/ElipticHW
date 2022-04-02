@@ -1,7 +1,7 @@
 const p1 = 127,
   p2 = 827,
-  A = 2,
-  B = 11;
+  A = 23
+  B = 95;
 
 let pointArray1 = [],
   pointArray2 = [];
@@ -37,6 +37,7 @@ function getPointListmap(p, pointArray) {
           x: i,
           y: mapQp.get(elipticFunc).ySet[0]
         });
+        count++;
         pointArray.push({
           x: i,
           y: mapQp.get(elipticFunc).ySet[1]
@@ -50,9 +51,9 @@ function getPointListmap(p, pointArray) {
 function printResult(pointArray, p) {
   let count = getPointListmap(p, pointArray);
   console.log(`Danh sách các điểm thuộc đường cong Eliptic với p = ${p}, có ${count} điểm: `)
-  pointArray.forEach(point => {
-    console.log(point)
-  })
+  // pointArray.forEach(point => {
+  //   console.log(point)
+  // })
 }
 printResult(pointArray1, p1);
 printResult(pointArray2, p2);
