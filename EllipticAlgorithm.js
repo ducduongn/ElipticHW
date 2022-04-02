@@ -1,7 +1,9 @@
+const ObjectsToCsv = require('objects-to-csv')
+
 const p1 = 127,
   p2 = 827,
-  A = 1,
-  B = 9;
+  A = 23,
+  B = 124;
 
 let pointArray1 = [],
   pointArray2 = [];
@@ -51,9 +53,28 @@ function getPointListmap(p, pointArray) {
 function printResult(pointArray, p) {
   let count = getPointListmap(p, pointArray);
   console.log(`Danh sách các điểm thuộc đường cong Eliptic với p = ${p}, có ${count} điểm: `)
-  pointArray.forEach(point => {
-    console.log(point)
-  })
+  // pointArray.forEach(point => {
+  //   console.log(point)
+  // })
 }
 printResult(pointArray1, p1);
 printResult(pointArray2, p2);
+
+const pointArrayCsv1 = new ObjectsToCsv(pointArray1);
+const pointArrayCsv2 = new ObjectsToCsv(pointArray2);
+
+async function createCsv(csv, path) {
+  await csv.toDisk(path)
+}
+
+createCsv(pointArrayCsv1, './pointList1.csv').then(function () {
+  console.log("Promise Resolved");
+}).catch(function () {
+  console.log("Promise Rejected");
+});
+
+createCsv(pointArrayCsv2, './pointList2.csv').then(function () {
+  console.log("Promise Resolved");
+}).catch(function () {
+  console.log("Promise Rejected");
+});
