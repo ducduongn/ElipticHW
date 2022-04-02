@@ -2,8 +2,8 @@ const ObjectsToCsv = require('objects-to-csv')
 
 const p1 = 127,
   p2 = 827,
-  A = 23,
-  B = 124;
+  A = 9,
+  B = 14;
 
 let pointArray1 = [],
   pointArray2 = [];
