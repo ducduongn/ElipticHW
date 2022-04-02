@@ -1,7 +1,7 @@
 const p1 = 127,
   p2 = 827,
-  A = 23
-  B = 95;
+  A = 1,
+  B = 9;
 
 let pointArray1 = [],
   pointArray2 = [];
