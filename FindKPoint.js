@@ -1,22 +1,22 @@
 const ObjectsToCsv = require('objects-to-csv')
 
 
-const p1 = 17,
+const p1 = 127,
     p2 = 827,
-    A1 = 2,
-    B1 = 2,
+    A1 = 31,
+    B1 = 31,
     A2 = 19,
     B2 = 17,
-    numPoint1 = 19,
-    numPoint2 = 20;
+    numPoint1 = 131,
+    numPoint2 = 829;
 
 const P1 = {
-    x: 5,
-    y: 1
+    x: 19,
+    y: 42
 },
     P2 = {
-        x: 12,
-        y: 14
+        x: 16,
+        y: 44
     };
 const P3 = {
     x: 5,
@@ -103,12 +103,17 @@ function addPoint(pointP1, pointP2, p, A, B) {
 const arrayKPoint1 = [],
     arrayKPoint2 = [];
 
-function getKPoint(point, p, arrayKPoint, A, B) {
+function getKPoint(point, p, arrayKPoint, A, B, numPoint) {
     let i = 2
     let oldPoint = JSON.parse(JSON.stringify(point));
     let newPoint = JSON.parse(JSON.stringify(point));
+    arrayKPoint.push({
+        k: 1,
+        x: oldPoint.x,
+        y: oldPoint.y
+    });
 
-    while (i <= numPoint1) {
+    while (i <= numPoint) {
         console.log("I: "+ i)
         newPoint = addPoint(
             JSON.parse(JSON.stringify(newPoint)),
@@ -116,7 +121,7 @@ function getKPoint(point, p, arrayKPoint, A, B) {
             p,
             A,
             B);
-        if (i < numPoint1) {
+        if (i < numPoint) {
             arrayKPoint.push({
                 k: i,
                 x: newPoint.x,
@@ -132,8 +137,8 @@ function getKPoint(point, p, arrayKPoint, A, B) {
         i++;
     }
 }
-getKPoint(P1, p1, arrayKPoint1, A1, B1);
-// getKPoint(P2, p2, arrayKPoint2, A2, B2);
+getKPoint(P1, p1, arrayKPoint1, A1, B1, numPoint1);
+getKPoint(P2, p2, arrayKPoint2, A2, B2, numPoint2);
 
 const kPointArrayCsv1 = new ObjectsToCsv(arrayKPoint1);
 const kPointArrayCsv2 = new ObjectsToCsv(arrayKPoint2);
@@ -148,8 +153,8 @@ createCsv(kPointArrayCsv1, './BangKP(127).csv').then(function () {
     console.log("Promise Rejected");
 });
 
-// createCsv(kPointArrayCsv2, './BangKP(827).csv').then(function () {
-//     console.log("Promise Resolved");
-// }).catch(function () {
-//     console.log("Promise Rejected");
-// });
+createCsv(kPointArrayCsv2, './BangKP(827).csv').then(function () {
+    console.log("Promise Resolved");
+}).catch(function () {
+    console.log("Promise Rejected");
+});
