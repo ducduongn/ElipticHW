@@ -1,14 +1,14 @@
 const ObjectsToCsv = require('objects-to-csv')
 
 
-const p1 = 127,
+const p1 = 23,
   p2 = 827,
-  A = 9,
-  B = 14;
+  A = 1,
+  B = 1;
 
 const P1 = {
     x: 6,
-    y: 41
+    y: 19
 },
     P2 = {
         x: 12,
