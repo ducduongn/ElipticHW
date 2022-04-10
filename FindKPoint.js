@@ -1,14 +1,18 @@
 const ObjectsToCsv = require('objects-to-csv')
 
 
-const p1 = 23,
-  p2 = 827,
-  A = 1,
-  B = 1;
+const p1 = 17,
+    p2 = 827,
+    A1 = 2,
+    B1 = 2,
+    A2 = 19,
+    B2 = 17,
+    numPoint1 = 19,
+    numPoint2 = 20;
 
 const P1 = {
-    x: 6,
-    y: 19
+    x: 5,
+    y: 1
 },
     P2 = {
         x: 12,
@@ -19,41 +23,79 @@ const P3 = {
     y: 1
 }
 
-function addPoint(pointP1, pointP2, p) {
-    // console.log(pointP1, pointP2)
-    let lamda;
+function gcd(a, b) {
+    return b ? gcd(b, a % b) : a;
+};
+
+function modInverse(a, m) {
+    let m0 = m;
+    let y = 0;
+    let x = 1;
+
+    if (m == 1)
+        return 0;
+
+    while (a > 1) {
+
+        // q is quotient
+        let q = parseInt(a / m);
+        let t = m;
+
+        // m is remainder now,
+        // process same as
+        // Euclid's algo
+        m = a % m;
+        a = t;
+        t = y;
+
+        // Update y and x
+        y = x - q * y;
+        x = t;
+    }
+
+    // Make x positive
+    if (x < 0)
+        x += m0;
+
+    return x;
+}
+
+function mod(n, p) {
+    if (n < 0)
+        n = p - Math.abs(n) % p;
+
+    return n % p;
+}
+
+
+function addPoint(pointP1, pointP2, p, A, B) {
+    console.log(pointP1, pointP2)
+    let lamda, lamdaDenominator, lamdaNumerator;
     let pointResult = {};
     if (pointP1.x === pointP2.x && pointP1.y === pointP2.y) {
-        let lamdaX = Math.abs(Math.round(1 / 2 * pointP1.y * p));
-        let lamdaY = (3 * Math.pow(pointP1.x, 2) + A) % p;
-        // console.log(lamdaY);
-        // console.log(lamdaX);
-        lamda = (lamdaX * lamdaY) % p;
+        lamdaNumerator = 3 * pointP1.x * pointP1.x + A;
+        lamdaDenominator = 2 * pointP1.y;
+        console.log("yess");
     } else {
-        let lamdaY = Math.abs(pointP2.y - pointP1.y);
-        let lamdaX;
-        if (pointP1.x - pointP2.x === 1) {
-            lamdaX = 1;
-        }  else {
-            lamdaX = Math.abs(Math.round((1 / (pointP2.x - pointP1.x) * p)));
-        }
-        // console.log(lamdaY);
-        // console.log(lamdaX);
-        lamda = (lamdaX * lamdaY) % p;
+        lamdaNumerator = pointP2.y - pointP1.y;
+        lamdaDenominator = pointP2.x - pointP1.x;
     }
-    // console.log(lamda);
-    let resultX = (lamda * lamda - pointP1.x - pointP2.x);
-    if (resultX > 0) {
-        pointResult.x = resultX % p;
-    } else {
-        pointResult.x = resultX % p + p;
+    let gcdPoint = gcd(lamdaNumerator, lamdaDenominator);
+    console.log("lamdaNumerator: " + lamdaNumerator);
+    console.log("lamdaDenominator: " + lamdaDenominator);
+    lamdaNumerator = lamdaNumerator / gcdPoint;
+    lamdaDenominator = lamdaDenominator / gcdPoint;
+    if ((lamdaNumerator < 0 && lamdaDenominator < 0) 
+    || (lamdaNumerator > 0 && lamdaDenominator < 0)) {
+        lamdaNumerator = lamdaNumerator * -1;
+        lamdaDenominator = lamdaDenominator * -1;
     }
-    let resultY = (lamda * (pointP1.x - pointResult.x) - pointP1.y);
-    if (resultY > 0) {
-        pointResult.y = resultY % p;
-    } else {
-        pointResult.y = resultY % p + p;
-    }
+    lamda = mod((mod(lamdaNumerator, p) * modInverse(lamdaDenominator, p)), p);
+    console.log("lamdaNumerator: " + lamdaNumerator);
+    console.log("lamdaDenominator: " + lamdaDenominator);
+    console.log("lamda: " + lamda);
+    pointResult.x = mod(lamda * lamda - pointP1.x - pointP2.x, p);
+    pointResult.y = mod(lamda * (pointP1.x - pointResult.x) - pointP1.y, p);
     // console.log(pointResult);
     return pointResult;
 }
@@ -61,45 +103,53 @@ function addPoint(pointP1, pointP2, p) {
 const arrayKPoint1 = [],
     arrayKPoint2 = [];
 
-
-function getKPoint(point, p, arrayKPoint) {
-    let i = 1
+function getKPoint(point, p, arrayKPoint, A, B) {
+    let i = 2
     let oldPoint = JSON.parse(JSON.stringify(point));
     let newPoint = JSON.parse(JSON.stringify(point));
 
-    while (i < p) {
-        let savePoint = JSON.parse(JSON.stringify(newPoint));
-        newPoint = addPoint( 
-            JSON.parse(JSON.stringify(newPoint)),  
+    while (i <= numPoint1) {
+        console.log("I: "+ i)
+        newPoint = addPoint(
+            JSON.parse(JSON.stringify(newPoint)),
             JSON.parse(JSON.stringify(oldPoint)),
-            p);
+            p,
+            A,
+            B);
+        if (i < numPoint1) {
+            arrayKPoint.push({
+                k: i,
+                x: newPoint.x,
+                y: newPoint.y
+            })
+        } else {
+            arrayKPoint.push({
+                k: i,
+                x: "infinite",
+                y: "infinite"
+            })
+        }
         i++;
-        oldPoint = savePoint;
-        arrayKPoint.push({
-            k: i,
-            x: newPoint.x,
-            y: newPoint.y
-        })
     }
 }
-getKPoint(P1, p1, arrayKPoint1);
-getKPoint(P2, p2, arrayKPoint2);
+getKPoint(P1, p1, arrayKPoint1, A1, B1);
+// getKPoint(P2, p2, arrayKPoint2, A2, B2);
 
 const kPointArrayCsv1 = new ObjectsToCsv(arrayKPoint1);
 const kPointArrayCsv2 = new ObjectsToCsv(arrayKPoint2);
 
 async function createCsv(csv, path) {
-  await csv.toDisk(path)
+    await csv.toDisk(path)
 }
 
 createCsv(kPointArrayCsv1, './BangKP(127).csv').then(function () {
-  console.log("Promise Resolved");
+    console.log("Promise Resolved");
 }).catch(function () {
-  console.log("Promise Rejected");
+    console.log("Promise Rejected");
 });
 
-createCsv(kPointArrayCsv2, './BangKP(827).csv').then(function () {
-  console.log("Promise Resolved");
-}).catch(function () {
-  console.log("Promise Rejected");
-});
+// createCsv(kPointArrayCsv2, './BangKP(827).csv').then(function () {
+//     console.log("Promise Resolved");
+// }).catch(function () {
+//     console.log("Promise Rejected");
+// });

@@ -2,13 +2,15 @@ const ObjectsToCsv = require('objects-to-csv')
 
 const p1 = 127,
   p2 = 827,
-  A = 5,
-  B = 13;
+  A1 = 31,
+  B1 = 31,
+  A2 = 19,
+  B2 = 17;
 
 let pointArray1 = [],
   pointArray2 = [];
 
-function getPointListmap(p, pointArray) {
+function getPointListmap(p, pointArray, A, B) {
   let mapQp = new Map();
 
   for (let i = 0; i <= (p - 1) / 2; i++) {
@@ -51,15 +53,15 @@ function getPointListmap(p, pointArray) {
   return count;
 }
 
-function printResult(pointArray, p) {
-  let count = getPointListmap(p, pointArray);
+function printResult(pointArray, p, A, B) {
+  let count = getPointListmap(p, pointArray, A, B);
   console.log(`Danh sách các điểm thuộc đường cong Eliptic với p = ${p}, có ${count + 1} điểm: `)
   // pointArray.forEach(point => {
   //   console.log(point)
   // })
 }
-printResult(pointArray1, p1);
-printResult(pointArray2, p2);
+printResult(pointArray1, p1, A1, B1);
+printResult(pointArray2, p2, A2, B2);
 
 const pointArrayCsv1 = new ObjectsToCsv(pointArray1);
 const pointArrayCsv2 = new ObjectsToCsv(pointArray2);
