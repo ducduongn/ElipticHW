@@ -1,11 +1,11 @@
 const ObjectsToCsv = require('objects-to-csv')
 
 const p1 = 127,
-  p2 = 827,
-  A1 = 31,
-  B1 = 31,
-  A2 = 19,
-  B2 = 17;
+    p2 = 827,
+    A1 = 31,
+    B1 = 31,
+    A2 = 19,
+    B2 = 17;
 
 let pointArray1 = [],
   pointArray2 = [];
@@ -70,13 +70,13 @@ async function createCsv(csv, path) {
   await csv.toDisk(path)
 }
 
-createCsv(pointArrayCsv1, './pointList1.csv').then(function () {
+createCsv(pointArrayCsv1, './DanhSachDiemThuocDuongCong(p-127).csv').then(function () {
   console.log("Promise Resolved");
 }).catch(function () {
   console.log("Promise Rejected");
 });
 
-createCsv(pointArrayCsv2, './pointList2.csv').then(function () {
+createCsv(pointArrayCsv2, './DanhSachDiemThuocDuongCong(p-827).csv').then(function () {
   console.log("Promise Resolved");
 }).catch(function () {
   console.log("Promise Rejected");

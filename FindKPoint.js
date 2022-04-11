@@ -18,10 +18,6 @@ const P1 = {
         x: 16,
         y: 44
     };
-const P3 = {
-    x: 5,
-    y: 1
-}
 
 function gcd(a, b) {
     return b ? gcd(b, a % b) : a;
